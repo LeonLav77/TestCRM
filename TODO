@@ -1,0 +1,10 @@
+Create a teacher-student crm
+It needs to be TDD - test driven development
+All storage should be done on S3
+This is for portfolio so it needds to be good
+Roles need to be well implemented
+The app needs to be well documented
+Would be nice to add CI/CD
+
+Step 1: Authentication
+    1. Create a student-student Model
