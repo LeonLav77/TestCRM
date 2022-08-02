@@ -17,9 +17,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/yes', function () {
+
+Route::get('/teacher/test', function () {
 	return auth()->user();
 })->middleware('role:App\Models\Teacher');
+
+Route::get('/student/test', function () {
+	return auth()->user();
+})->middleware('role:App\Models\Student');
+
+Route::get('/admin/test', function () {
+	return auth()->user();
+})->middleware('role:App\Models\Admin');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
