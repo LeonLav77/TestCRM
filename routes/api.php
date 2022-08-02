@@ -21,4 +21,7 @@ Route::group(['prefix' => 'test'], function(){
     Route::get('/', function(){
         return 'test';
     });
+    Route::get('/yes', function(){
+        return 'yes';
+    })->middleware('role:App\Models\Teacher');
 });
