@@ -10,4 +10,19 @@ Step 1: Authentication
     1. Create a student-student Model DONE
     2. Create User-Role relation DONE
     3. Create Role middleware DONE
-    4. Test it
+    4. Test it DONE
+    5. Remove register method
+    6. Only Admin can register new users
+    7. Create custom input renderer
+    8. Create view for creating new users with the renderer
+
+
+Stage 2 (A.K.A stuff that was not implemented in stage 1 mostly because of lazyness):
+    1. Input rederer should be way more modifiable and written better(select)
+
+
+Finishing touches:
+    1. All css to should be in one place
+    2. App should be publishable
+    3. All javascript should be in one place
+    4. It should be 100% test covered

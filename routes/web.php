@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::get('/teacher/test', function () {
 	return auth()->user();
 })->middleware('role:App\Models\Teacher');
@@ -31,6 +30,7 @@ Route::get('/admin/test', function () {
 })->middleware('role:App\Models\Admin');
 
 Auth::routes();
+// Auth::routes(['register' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -52,3 +52,13 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 });
+
+// Route::prefix('users')->middleware('auth')->name('users.')->group([
+// 	Route::get('/add', 'App\Http\Controllers\UserController@add')->name('add'),
+// ]);
+// Route::prefix('users')->name('users.')->group(function () {
+// 	Route::get('/add', 'App\Http\Controllers\UserController@add')->name('add');
+
+// });
+
+
