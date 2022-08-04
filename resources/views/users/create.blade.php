@@ -8,7 +8,9 @@
         'Student',
     ];
     $name = "test";
-    $email = "test@example.com";
+    use Faker\Factory as Faker;
+    $faker = Faker::create();
+    $email = $faker->email();
     $password = "password";
     $role = "Admin";
     $inputs = [

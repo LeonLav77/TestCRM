@@ -5,13 +5,14 @@ This is for portfolio so it needds to be good
 Roles need to be well implemented
 The app needs to be well documented
 Would be nice to add CI/CD
+Has to have a precommit hook for testing and standardazing
 
 Step 1: Authentication
     1. Create a student-student Model DONE
     2. Create User-Role relation DONE
     3. Create Role middleware DONE
     4. Test it DONE
-    5. Remove register method
+    5. Remove register method DONE
     6. Only Admin can register new users, but a teacher can create Students
     7. Create custom input renderer DONE
     8. Create view for creating new users with the renderer DONE
@@ -19,10 +20,11 @@ Step 1: Authentication
 
 Stage 2 (A.K.A stuff that was not implemented in stage 1 mostly because of lazyness):
     1. Input rederer should be way more modifiable and written better(select)
-
+    2. Roles have some messy logic
 
 Finishing touches:
     1. All css to should be in one place
     2. App should be publishable
     3. All javascript should be in one place
     4. It should be 100% test covered
+    5. Whole code should be reviewed and prettified

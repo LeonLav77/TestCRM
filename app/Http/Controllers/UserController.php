@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\NewUserRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\NewUserRequest;
 
 class UserController extends Controller
 {
@@ -28,13 +29,17 @@ class UserController extends Controller
         if(!$role){
             return redirect()->back()->withErrors(['role' => 'Invalid role']);
         }
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'user_type' => $role,
-            'user_id' => $role::create()->id,
-        ]);
-        return $user;
+        if (Gate::allows('admin', $role)) {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'user_type' => $role,
+                'user_id' => $role::create()->id,
+            ]);
+            return $user;
+        } else {
+            return redirect()->back()->withErrors(['role' => 'You may not create this a user with this role']);
+        }
     }
 }

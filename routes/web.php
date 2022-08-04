@@ -29,8 +29,7 @@ Route::get('/admin/test', function () {
 	return auth()->user();
 })->middleware('role:App\Models\Admin');
 
-Auth::routes();
-// Auth::routes(['register' => false]);
+Auth::routes(['register' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -47,7 +46,8 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-	Route::resource('user', 'App\Http\Controllers\UserController');
+	Route::post('user', 'App\Http\Controllers\UserController@store')->name('user.store');
+	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['store']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
