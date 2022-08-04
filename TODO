@@ -11,12 +11,15 @@ Step 1: Authentication
     1. Create a student-student Model DONE
     2. Create User-Role relation DONE
     3. Create Role middleware DONE
-    4. Test it DONE
-    5. Remove register method DONE
-    6. Only Admin can register new users, but a teacher can create Students
+    4. Remove register method DONE
+    5. Test it DONE
+    
+Step 2: New Users
+    6. Only Admin can register new users, but a teacher can create Students DONE
     7. Create custom input renderer DONE
     8. Create view for creating new users with the renderer DONE
-
+    9. Make Test
+    10. Refactor
 
 Stage 2 (A.K.A stuff that was not implemented in stage 1 mostly because of lazyness):
     1. Input rederer should be way more modifiable and written better(select)
