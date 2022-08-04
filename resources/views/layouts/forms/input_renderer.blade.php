@@ -13,6 +13,9 @@
         if (isset($attributes['name'])) {
             $name = $attributes['name'];
         }
+        if (isset($attributes['type'])) {
+            $type = $attributes['type'];
+        }
         if (isset($attributes['maxlength'])) {
             $maxlength = $attributes['maxlength'];
         }
@@ -31,7 +34,8 @@
         @endphp
         <div>
             <label for="{{ $name }}" class="label">{{ $label }}</label>
-            <input type="text" name="{{ $name ?? '' }}" 
+            <input type="{{ $type ?? 'text'}}" 
+            name="{{ $name ?? '' }}" 
             class="form-control" 
             placeholder="{{ $placeholder ?? '' }}" 
             maxlength="{{ $maxlength ?? '' }}"

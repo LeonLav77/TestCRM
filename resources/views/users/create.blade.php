@@ -7,6 +7,10 @@
         'Teacher',
         'Student',
     ];
+    $name = "test";
+    $email = "test@example.com";
+    $password = "password";
+    $role = "Admin";
     $inputs = [
         [
 		'label' => 'Name',
@@ -16,9 +20,48 @@
 			'disabled' => false,
             'name' => 'name',
 			'placeholder' => 'Enter your name',
-			// 'value' => '',
 			'maxlength' => 50,
-			'required' => false,
+            'value' => $name ?? null,
+			'required' => true,
+		],
+	],
+    [
+		'label' => 'Email Address',
+		'tag' => 'text',
+		'attributes' => [
+			'type' => 'text',
+			'disabled' => false,
+            'name' => 'email',
+			'placeholder' => 'Enter your email',
+			'maxlength' => 50,
+            'value' => $email ?? null,
+			'required' => true,
+		],
+	],
+    [
+		'label' => 'Password',
+		'tag' => 'text',
+		'attributes' => [
+			'type' => 'password',
+			'disabled' => false,
+            'name' => 'password',
+			'placeholder' => 'Enter your password',
+			'maxlength' => 50,
+            'value' => $password ?? null,
+			'required' => true,
+		],
+	],
+    [
+		'label' => 'Password Confirmation',
+		'tag' => 'text',
+		'attributes' => [
+			'type' => 'password',
+			'disabled' => false,
+            'name' => 'password_confirmation',
+			'placeholder' => 'Please repeat your password',
+			'maxlength' => 50,
+            'value' => $password ?? null,
+			'required' => true,
 		],
 	],
     [

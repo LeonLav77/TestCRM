@@ -12,9 +12,9 @@ Step 1: Authentication
     3. Create Role middleware DONE
     4. Test it DONE
     5. Remove register method
-    6. Only Admin can register new users
-    7. Create custom input renderer
-    8. Create view for creating new users with the renderer
+    6. Only Admin can register new users, but a teacher can create Students
+    7. Create custom input renderer DONE
+    8. Create view for creating new users with the renderer DONE
 
 
 Stage 2 (A.K.A stuff that was not implemented in stage 1 mostly because of lazyness):

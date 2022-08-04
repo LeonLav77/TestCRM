@@ -10,4 +10,7 @@ class Role extends Model
 {
     use HasFactory, UsesUuid;
     public $fillable = ['name'];
+    public const ADMIN = 'admin';
+    public const STUDENT = 'student';
+    public const TEACHER = 'teacher';
 }

@@ -47,18 +47,11 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
+	Route::resource('user', 'App\Http\Controllers\UserController');
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 });
 
-// Route::prefix('users')->middleware('auth')->name('users.')->group([
-// 	Route::get('/add', 'App\Http\Controllers\UserController@add')->name('add'),
-// ]);
-// Route::prefix('users')->name('users.')->group(function () {
-// 	Route::get('/add', 'App\Http\Controllers\UserController@add')->name('add');
-
-// });
 
 
