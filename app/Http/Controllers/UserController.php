@@ -37,7 +37,7 @@ class UserController extends Controller
                 'user_type' => $role,
                 'user_id' => $role::create()->id,
             ]);
-            return $user;
+            return redirect()->route('user.index')->withStatus(__('User successfully created.'));
         } else {
             return redirect()->back()->withErrors(['role' => 'You may not create this a user with this role']);
         }
