@@ -46,7 +46,7 @@ class AddUserTest extends TestCase
     public function testStudentCreatingUsers()
     {
         $response = $this->actingAs($this->users['Student'])
-            ->post(route('user.store'), [
+            ->post(route('users.store'), [
                 'name' => 'Teacher',
                 'email' => 'shouldNotWork@gmail.com',
                 'password' => 'password',
@@ -60,7 +60,7 @@ class AddUserTest extends TestCase
             'email' => 'shouldNotWork@gmail.com',
         ]);
         $response = $this->actingAs($this->users['Student'])
-            ->post(route('user.store'), [
+            ->post(route('users.store'), [
                 'name' => 'Admin',
                 'email' => 'these@gmail0Admin',
                 'password' => 'password',
@@ -78,7 +78,7 @@ class AddUserTest extends TestCase
     public function testTeacherCreatingUsers()
     {
         $response = $this->actingAs($this->users['Teacher'])
-            ->post(route('user.store'), [
+            ->post(route('users.store'), [
                 'name' => 'Student',
                 'email' => 'shouldWork@gmail.com',
                 'password' => 'password',
@@ -86,12 +86,12 @@ class AddUserTest extends TestCase
             ]);
         $response->assertStatus(302);
         $response->assertSessionHasNoErrors();
-        $response->assertRedirect(route('user.index'));
+        $response->assertRedirect(route('users.index'));
         $this->assertDatabaseHas('users', [
             'email' => 'shouldWork@gmail.com',
         ]);
         $response = $this->actingAs($this->users['Teacher'])
-            ->post(route('user.store'), [
+            ->post(route('users.store'), [
                 'name' => 'Admin',
                 'email' => 'shouldNotWork@gmail.com',
                 'password' => 'password',
@@ -109,7 +109,7 @@ class AddUserTest extends TestCase
     public function testAdminCreatingUsers()
     {
         $response = $this->actingAs($this->users['Admin'])
-            ->post(route('user.store'), [
+            ->post(route('users.store'), [
                 'name' => 'Teacher',
                 'email' => 'shouldWork@gmail.com',
                 'password' => 'password',
@@ -117,13 +117,13 @@ class AddUserTest extends TestCase
             ]);
         $response->assertStatus(302);
         $response->assertSessionHasNoErrors();
-        $response->assertRedirect(route('user.index'));
+        $response->assertRedirect(route('users.index'));
         $this->assertDatabaseHas('users', [
                 'email' => 'shouldWork@gmail.com',
             ]);
 
         $response = $this->actingAs($this->users['Admin'])
-            ->post(route('user.store'), [
+            ->post(route('users.store'), [
                 'name' => 'Student',
                 'email' => 'shouldWorkStudent@gmail.com',
                 'password' => 'password',
@@ -131,7 +131,7 @@ class AddUserTest extends TestCase
             ]);
         $response->assertStatus(302);
         $response->assertSessionHasNoErrors();
-        $response->assertRedirect(route('user.index'));
+        $response->assertRedirect(route('users.index'));
         $this->assertDatabaseHas('users', [
                 'email' => 'shouldWorkStudent@gmail.com',
             ]);
@@ -139,7 +139,7 @@ class AddUserTest extends TestCase
     public function testBadData()
     {
         $response = $this->actingAs($this->users['Admin'])
-            ->post(route('user.store'), [
+            ->post(route('users.store'), [
                 'name' => '',
                 'email' => '',
                 'password' => '',
@@ -156,7 +156,7 @@ class AddUserTest extends TestCase
     public function testBadRole()
     {
         $response = $this->actingAs($this->users['Admin'])
-            ->post(route('user.store'), [
+            ->post(route('users.store'), [
                 'name' => 'Teacher',
                 'email' => 'shouldNotWork@gmail.com',
                 'password' => 'password',

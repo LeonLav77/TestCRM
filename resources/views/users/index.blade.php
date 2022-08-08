@@ -35,8 +35,8 @@
                         <h4 class="card-title">Users</h4>
                     </div>
                     <div class="col-4 text-right">
-                        <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary">Add user</a>
-                        <a href="{{ route('user.create') }}" class="btn btn-sm btn-danger">Remove</a>
+                        <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary">Add user</a>
+                        <a href="{{ route('users.create') }}" class="btn btn-sm btn-danger">Remove</a>
                     </div>
                 </div>
             </div>
@@ -69,8 +69,8 @@
                                             </a>
                                                     {{-- Edit dropdown list --}}
                                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                        <a class="dropdown-item" href="{{ route('user.edit', $user->id) }}">Edit</a>
-                                                        <a class="dropdown-item" href="{{ route('user.destroy', $user->id) }}" role="button">Remove</a>
+                                                        <a class="dropdown-item" href="{{ route('users.edit', $user->id) }}">Edit</a>
+                                                        <a class="dropdown-item" href="{{ route('users.destroy', $user->id) }}" role="button">Remove</a>
                                                     </div>
                                                 </div>
                                             </td>

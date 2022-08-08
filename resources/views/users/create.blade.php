@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 @php
-    $form_action = route('user.store');
+    $form_action = route('users.store');
     $pageSlug = null;
     $roles = [
         'Admin',
@@ -42,7 +42,7 @@
 	],
 ];
     if(isset($user)){
-        $form_action = route('user.update', $user->id);
+        $form_action = route('users.update', $user->id);
         $pageSlug = $user->slug;
         $name = $user->name;
         $email = $user->email;
