@@ -13,6 +13,42 @@
     $email = $faker->email();
     $password = "password";
     $role = "Admin";
+    $password_inputs = [
+    [
+		'label' => 'Password',
+		'tag' => 'text',
+		'attributes' => [
+			'type' => 'password',
+			'disabled' => false,
+            'name' => 'password',
+			'placeholder' => 'Enter your password',
+			'maxlength' => 50,
+            'value' => $password ?? null,
+			'required' => true,
+		],
+	],
+    [
+		'label' => 'Password Confirmation',
+		'tag' => 'text',
+		'attributes' => [
+			'type' => 'password',
+			'disabled' => false,
+            'name' => 'password_confirmation',
+			'placeholder' => 'Please repeat your password',
+			'maxlength' => 50,
+            'value' => $password ?? null,
+			'required' => true,
+		],
+	],
+];
+    if(isset($user)){
+        $form_action = route('user.update', $user->id);
+        $pageSlug = $user->slug;
+        $name = $user->name;
+        $email = $user->email;
+        $role = $user->role->name;
+        $password_inputs = [];
+    }
     $inputs = [
         [
 		'label' => 'Name',
@@ -41,43 +77,18 @@
 		],
 	],
     [
-		'label' => 'Password',
-		'tag' => 'text',
-		'attributes' => [
-			'type' => 'password',
-			'disabled' => false,
-            'name' => 'password',
-			'placeholder' => 'Enter your password',
-			'maxlength' => 50,
-            'value' => $password ?? null,
-			'required' => true,
-		],
-	],
-    [
-		'label' => 'Password Confirmation',
-		'tag' => 'text',
-		'attributes' => [
-			'type' => 'password',
-			'disabled' => false,
-            'name' => 'password_confirmation',
-			'placeholder' => 'Please repeat your password',
-			'maxlength' => 50,
-            'value' => $password ?? null,
-			'required' => true,
-		],
-	],
-    [
 		'label' => 'Role',
 		'tag' => 'select',
 		'attributes' => [
             'options' => $roles,
 			'disabled' => false,
             'name' => 'role',
-			// 'value' => '1',
+			'value' => $role ?? null,
 			'required' => true,
 		],
 	],
-    ]
+];
+
 @endphp
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <style>
@@ -153,6 +164,7 @@
                 enctype="multipart/form-data">
                     @csrf
                     @include('layouts.forms.input_renderer', ['fields' => $inputs])
+                    @include('layouts.forms.input_renderer', ['fields' => $password_inputs])
                     @include('layouts.forms.submit_button')
                 </form>
             </div>

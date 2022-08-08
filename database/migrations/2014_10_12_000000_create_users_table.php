@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
+			$table->uuid('role_id')->nullable();
             $table->string('name');
             $table->uuidMorphs('user');            
             $table->string('email')->unique();
@@ -22,6 +23,8 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+
+			$table->foreign('role_id')->references('id')->on('roles')->onDelete('set null');
         });
     }
 

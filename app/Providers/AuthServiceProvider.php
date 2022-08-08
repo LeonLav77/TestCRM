@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+
+use App\Policies\RolePolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -39,5 +41,7 @@ class AuthServiceProvider extends ServiceProvider
             }
             return false;
         });
+        Gate::define('see-user', [RolePolicy::class, 'seeUser']);
+
     }
 }

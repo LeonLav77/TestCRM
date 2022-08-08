@@ -7,19 +7,42 @@ The app needs to be well documented
 Would be nice to add CI/CD
 Has to have a precommit hook for testing and standardazing
 
+Step 0:
+    - Create a basic CI/CD pipeline
+    - create a precommit test hook
+    - create a precommit standardizing hook
+    - clean up the view clutter
+    - create a README.md
+    - clean up code clutter
+    - create an amazing Documentation
+
 Step 1: Authentication
     1. Create a student-student Model DONE
     2. Create User-Role relation DONE
     3. Create Role middleware DONE
     4. Remove register method DONE
     5. Test it DONE
-    
+
 Step 2: New Users
     6. Only Admin can register new users, but a teacher can create Students DONE
     7. Create custom input renderer DONE
     8. Create view for creating new users with the renderer DONE
     9. Make Test DONE
-    10. Refactor
+    10. Refactor DONE
+
+Step 3: List Users
+    11. Create a list of users DONR
+    12. Create a view for listing users DONE
+    13. Permission for who sees which users DONE
+    14. Make Test
+    15. Refactor
+
+Step 4: Update and Delete Users
+    16. Add remove and multi remove methods
+    17. Add remove and multi remove buttons
+    18. Add update method and button
+    19. Make Test
+    20. Refactor
 
 Stage 2 (A.K.A stuff that was not implemented in stage 1 mostly because of lazyness):
     1. Input rederer should be way more modifiable and written better(select)

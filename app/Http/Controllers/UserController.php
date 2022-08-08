@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
@@ -25,6 +26,7 @@ class UserController extends Controller
     }
 
     public function store(NewUserRequest $request){
+        $role_id = Role::where('name', $request->role)->firstOrFail()->id;
         $role = getModelFromRoleName($request->role);
         if(!$role){
             return redirect()->back()->withErrors(['role' => 'Invalid role']);
@@ -36,10 +38,20 @@ class UserController extends Controller
                 'password' => Hash::make($request->password),
                 'user_type' => $role,
                 'user_id' => $role::create()->id,
+                'role_id' => $role_id,
             ]);
             return redirect()->route('user.index')->withStatus(__('User successfully created.'));
         } else {
             return redirect()->back()->withErrors(['role' => 'You may not create this a user with this role']);
         }
+    }
+
+    public function edit(User $user){
+        return view('users.create', ['user' => $user]);
+    }
+
+    public function destroy(User $user){
+        $user->delete();
+        return redirect()->route('users.create')->withStatus(__('User successfully deleted.'));
     }
 }

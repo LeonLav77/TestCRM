@@ -44,5 +44,7 @@ class User extends Authenticatable
     public function hasRole($role){
         return $this->user_type == $role;
     }
-
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
 }

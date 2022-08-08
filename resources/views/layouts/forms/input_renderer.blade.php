@@ -66,7 +66,7 @@
         <select class="form-control" name="{{ $name }}" {{ $required }} {{ $disabled }}>
             <option class="form-control select-items">-</option>
             @foreach ($options as $option)
-                <option class="form-control select-items">{{ $option }}</option>
+                <option class="form-control select-items" {{ $value == $option ? "selected" : null }}>{{ $option }}</option>
             @endforeach
         </select>
     </div>
