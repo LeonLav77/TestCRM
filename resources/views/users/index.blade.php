@@ -15,16 +15,37 @@
         <!-- CSS -->
         <link href="{{ asset('black') }}/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
         <link href="{{ asset('black') }}/css/theme.css" rel="stylesheet" />
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
-    </head>
+        <style>
+            .pointer {
+                cursor: pointer;
+            }
+        </style>    
+            </head>
 <body class="">
+
+@if (session('status'))
+<div class="alert alert-success" role="alert">
+    {{ session('status') }}
+  </div>
+@endif
+
+@if ($errors->any())
+    <div class="alert alert-danger float">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
                 <div class="wrapper">
                         @include('layouts.navbars.sidebar')
                         
             <div class="main-panel">
                     @include('layouts.navbars.navbar')
-                    {{-- @yield('content') --}}
 <div class="content">
         <div class="row">
     <div class="col-md-12">
@@ -36,7 +57,6 @@
                     </div>
                     <div class="col-4 text-right">
                         <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary">Add user</a>
-                        <a href="{{ route('users.create') }}" class="btn btn-sm btn-danger">Remove</a>
                     </div>
                 </div>
             </div>
@@ -50,18 +70,15 @@
                             <th scope="col">Role</th>
                             <th scope="col">Creation Date</th>
                             <th scope="col"></th>
-                            <th scope="col"></th>
                         </tr></thead>
                         <tbody>
                             @foreach ($users as $user)
                                 @can('see-user', $user)
-                                    
                                 <tr>
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->email}}</td>
                                     <td>{{$user->role->name ?? '-------'}}</td>
                                     <td>{{$user->created_at}}</td>
-                                    <td class="text-right"><input type="checkbox" class="options-form" name="{{ $user->id }}" /></td>
                                     <td class="text-right">
                                         <div class="dropdown">
                                             <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -70,13 +87,18 @@
                                                     {{-- Edit dropdown list --}}
                                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                                         <a class="dropdown-item" href="{{ route('users.edit', $user->id) }}">Edit</a>
-                                                        <a class="dropdown-item" href="{{ route('users.destroy', $user->id) }}" role="button">Remove</a>
+                                                        <form action="{{ route('users.destroy', $user->id) }}" method="post">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button type="submit" class="dropdown-item pointer">Delete</button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
                                 @endcan
                             @endforeach
+                        </form>
                         </tbody>
                     </table>
                 </div>

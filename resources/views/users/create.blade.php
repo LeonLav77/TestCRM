@@ -13,40 +13,13 @@
     $email = $faker->email();
     $password = "password";
     $role = "Admin";
-    $password_inputs = [
-    [
-		'label' => 'Password',
-		'tag' => 'text',
-		'attributes' => [
-			'type' => 'password',
-			'disabled' => false,
-            'name' => 'password',
-			'placeholder' => 'Enter your password',
-			'maxlength' => 50,
-            'value' => $password ?? null,
-			'required' => true,
-		],
-	],
-    [
-		'label' => 'Password Confirmation',
-		'tag' => 'text',
-		'attributes' => [
-			'type' => 'password',
-			'disabled' => false,
-            'name' => 'password_confirmation',
-			'placeholder' => 'Please repeat your password',
-			'maxlength' => 50,
-            'value' => $password ?? null,
-			'required' => true,
-		],
-	],
-];
+
     if(isset($user)){
         $form_action = route('users.update', $user->id);
-        $pageSlug = $user->slug;
-        $name = $user->name;
-        $email = $user->email;
-        $role = $user->role->name;
+        $pageSlug = $user->slug ?? null;
+        $name = $user->name ?? null;
+        $email = $user->email ?? null;
+        $role = $user->role->name ?? null;
         $password_inputs = [];
     }
     $inputs = [
@@ -87,8 +60,34 @@
 			'required' => true,
 		],
 	],
+    [
+		'label' => 'Password',
+		'tag' => isset($user) ? 'hidden' : 'text',
+		'attributes' => [
+			'type' => 'password',
+			'disabled' => false,
+            'name' => 'password',
+            'hidden' => isset($user),
+			'placeholder' => 'Enter your password',
+			'maxlength' => 50,
+            'value' => $password ?? null,
+			'required' => true,
+		],
+	],
+    [
+		'label' => 'Password Confirmation',
+		'tag' => isset($user) ? 'hidden' : 'text',
+		'attributes' => [
+			'type' => 'password',
+			'disabled' => false,
+            'name' => 'password_confirmation',
+			'placeholder' => 'Please repeat your password',
+			'maxlength' => 50,
+            'value' => $password ?? null,
+			'required' => true,
+		],
+	],
 ];
-
 @endphp
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <style>
@@ -163,8 +162,10 @@
                 <form class="form form-notify" action="{{ $form_action }}" method="post" autocomplete="off" id="main-form"
                 enctype="multipart/form-data">
                     @csrf
+                    @if(isset($user))
+                        @method('PUT')
+                    @endif
                     @include('layouts.forms.input_renderer', ['fields' => $inputs])
-                    @include('layouts.forms.input_renderer', ['fields' => $password_inputs])
                     @include('layouts.forms.submit_button')
                 </form>
             </div>

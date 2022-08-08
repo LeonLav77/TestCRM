@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\NewUserRequest;
@@ -52,6 +53,13 @@ class UserController extends Controller
 
     public function destroy(User $user){
         $user->delete();
-        return redirect()->route('users.create')->withStatus(__('User successfully deleted.'));
+        return redirect()->route('users.index')->withStatus(__('User successfully deleted.'));
+    }
+    public function update(NewUserRequest $request, User $user){
+        dd($request->all());
+        $role_id = Role::where('name', $request->role_id)->first()->id ?? null;
+        $user->role_id = $role_id;
+        $user->save();
+        return redirect()->route('users.index')->withStatus(__('User successfully updated.'));
     }
 }
