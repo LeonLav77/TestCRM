@@ -15,6 +15,7 @@ Step 0:
     - create a README.md
     - clean up code clutter
     - create an amazing Documentation
+    - create translation
 
 Step 1: Authentication
     1. Create a student-student Model DONE
@@ -34,8 +35,8 @@ Step 3: List Users
     11. Create a list of users DONR
     12. Create a view for listing users DONE
     13. Permission for who sees which users DONE
-    14. Make Test
-    15. Refactor
+    14. Make Test DONE
+    15. Refactor DONE
 
 Step 4: Update and Delete Users
     16. Add remove and multi remove methods

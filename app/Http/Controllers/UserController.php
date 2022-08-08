@@ -26,8 +26,8 @@ class UserController extends Controller
     }
 
     public function store(NewUserRequest $request){
-        $role_id = Role::where('name', $request->role)->firstOrFail()->id;
-        $role = getModelFromRoleName($request->role);
+        $role_id = Role::where('name', $request->role)->first()->id ?? null;
+        $role = getModelFromRoleName($request->role) ?? null;
         if(!$role){
             return redirect()->back()->withErrors(['role' => 'Invalid role']);
         }
