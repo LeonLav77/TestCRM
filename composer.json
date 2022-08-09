@@ -6,7 +6,6 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
-        "brainmaestro/composer-git-hooks": "*",
         "guzzlehttp/guzzle": "^7.2",
         "laravel-frontend-presets/black-dashboard": "^1.0",
         "laravel/framework": "^9.19",
@@ -42,7 +41,10 @@
     "extra": {
         "laravel": {
             "dont-discover": []
-        }
+        },
+        "hooks": {
+			"pre-commit": "./pre-commit.sh"
+		}
     },
 	"scripts": {
 		"post-autoload-dump": [
