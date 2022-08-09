@@ -53,6 +53,8 @@
         }
         if (isset($attributes['value'])) {
             $value = $attributes['value'];
+        }else{
+            $value = '';
         }
         if (isset($attributes['required'])) {
             $required = ($attributes['required'] == 'true' ? 'required' : '');
@@ -71,6 +73,23 @@
         </select>
     </div>
     @break
+    @case('hidden')
+        @php
+        if (isset($attributes['name'])) {
+            $name = $attributes['name'];
+        }
+        if (isset($attributes['value'])) {
+            $value = $attributes['value'];
+        }
+        @endphp
+        <div>
+            <input type="hidden" 
+            name="{{ $name ?? '' }}" 
+            class="form-control" 
+            value="{{ $value ?? '' }}"
+            >
+        </div>
+            @break
         @default
             
     @endswitch

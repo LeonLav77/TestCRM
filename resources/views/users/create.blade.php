@@ -7,13 +7,41 @@
         'Teacher',
         'Student',
     ];
-    $name = "test";
-    use Faker\Factory as Faker;
-    $faker = Faker::create();
-    $email = $faker->email();
-    $password = "password";
-    $role = "Admin";
-
+    // $name = "test";
+    // use Faker\Factory as Faker;
+    // $faker = Faker::create();
+    // $email = $faker->email();
+    // $password = "password";
+    // $role = "Admin";
+    $password_inputs = 
+    [    
+        [
+            'label' => 'Password',
+            'tag' => isset($user) ? 'hidden' : 'text',
+            'attributes' => [
+                'type' => 'password',
+                'disabled' => false,
+                'name' => 'password',
+                'placeholder' => 'Enter your password',
+                'maxlength' => 50,
+                'value' => $password ?? null,
+                'required' => true,
+            ],
+        ],
+        [
+            'label' => 'Password Confirmation',
+            'tag' => isset($user) ? 'hidden' : 'text',
+            'attributes' => [
+                'type' => 'password',
+                'disabled' => false,
+                'name' => 'password_confirmation',
+                'placeholder' => 'Please repeat your password',
+                'maxlength' => 50,
+                'value' => $password ?? null,
+                'required' => true,
+            ],
+        ]
+    ];
     if(isset($user)){
         $form_action = route('users.update', $user->id);
         $pageSlug = $user->slug ?? null;
@@ -21,6 +49,15 @@
         $email = $user->email ?? null;
         $role = $user->role->name ?? null;
         $password_inputs = [];
+    }
+    if (old('name')) {
+        $name = old('name');
+    }
+    if (old('email')) {
+        $email = old('email');
+    }
+    if (old('role')) {
+        $role = old('role');
     }
     $inputs = [
         [
@@ -60,33 +97,7 @@
 			'required' => true,
 		],
 	],
-    [
-		'label' => 'Password',
-		'tag' => isset($user) ? 'hidden' : 'text',
-		'attributes' => [
-			'type' => 'password',
-			'disabled' => false,
-            'name' => 'password',
-            'hidden' => isset($user),
-			'placeholder' => 'Enter your password',
-			'maxlength' => 50,
-            'value' => $password ?? null,
-			'required' => true,
-		],
-	],
-    [
-		'label' => 'Password Confirmation',
-		'tag' => isset($user) ? 'hidden' : 'text',
-		'attributes' => [
-			'type' => 'password',
-			'disabled' => false,
-            'name' => 'password_confirmation',
-			'placeholder' => 'Please repeat your password',
-			'maxlength' => 50,
-            'value' => $password ?? null,
-			'required' => true,
-		],
-	],
+
 ];
 @endphp
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -105,8 +116,19 @@
         right: 0;
         z-index: 99;
     }
+    .alert-fixed {
+    position:fixed; 
+    top: 0px; 
+    right: 0px; 
+    width: 60%;
+    margin: 10px;
+    padding: 10px;
+    z-index:9999; 
+    border-radius:60px
+}
 </style>
     <head>
+        <title>{{ count($errors) ? '('.count($errors).') ' : '' }}CMS | @yield('title')</title>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -152,7 +174,15 @@
 
     </head>
 <body class="">
-
+    @if ($errors->any())
+        <div class="alert-fixed alert-danger" role="alert">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="wrapper">
         @include('layouts.navbars.sidebar')
             
@@ -166,6 +196,7 @@
                         @method('PUT')
                     @endif
                     @include('layouts.forms.input_renderer', ['fields' => $inputs])
+                    @include('layouts.forms.input_renderer', ['fields' => $password_inputs])
                     @include('layouts.forms.submit_button')
                 </form>
             </div>

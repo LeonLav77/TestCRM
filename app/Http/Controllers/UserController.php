@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\NewUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -55,11 +56,16 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('users.index')->withStatus(__('User successfully deleted.'));
     }
-    public function update(NewUserRequest $request, User $user){
-        dd($request->all());
-        $role_id = Role::where('name', $request->role_id)->first()->id ?? null;
-        $user->role_id = $role_id;
-        $user->save();
+    public function update(UpdateUserRequest $request, User $user){
+        $role_id = Role::where('name', $request->role)->first()->id ?? null;
+        $user->user()->delete();
+        User::where('id', $user->id)
+            ->update([
+            'name' => $request->name,
+            'user_type' => getModelFromRoleName($request->role),
+            'user_id' => getModelFromRoleName($request->role)::create()->id,
+            'role_id' => $role_id,
+        ]);
         return redirect()->route('users.index')->withStatus(__('User successfully updated.'));
     }
 }
