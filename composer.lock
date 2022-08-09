@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "684fe34c05f2bf8be8eceab6bceebdf1",
+    "content-hash": "93b4b1e44f0347941e6fa4b3cd65ac3c",
     "packages": [
         {
             "name": "brainmaestro/composer-git-hooks",

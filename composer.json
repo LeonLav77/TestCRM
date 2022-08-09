@@ -38,47 +38,29 @@
             "Tests\\": "tests/"
         }
     },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ]
+    },
     "extra": {
         "laravel": {
             "dont-discover": []
         },
         "hooks": {
-			"pre-commit": "./pre-commit.sh"
-		}
+            "pre-commit": "composer update"
+        }
     },
-	"scripts": {
-		"post-autoload-dump": [
-			"Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-			"@php artisan package:discover --ansi"
-		],
-		"post-install-cmd": "cghooks add --ignore-lock",
-		"install-dev": [
-			"@php -r \"file_exists('.env') || copy('.env.dev', '.env');\"",
-			"@update-dev",
-			"@php artisan key:generate",
-			"@php artisan storage:link",
-			"npm install -g npm",
-			"npm install",
-			"npm cache clean -f",
-			"npm run prod",
-			"@php artisan migrate --seed"
-		],
-		"update-dev": [
-			"@composer update -v --no-cache --ignore-platform-req=ext-pcntl --ignore-platform-req=ext-posix",
-			"@composer clear-cache",
-			"cghooks update",
-			"@php artisan optimize:clear"
-		],
-		"update-prod": [
-			"@composer update -v --no-cache --no-dev",
-			"@composer clear-cache",
-			"@php artisan optimize"
-		],
-		"check-format": "php-cs-fixer fix --dry-run",
-		"format": "php-cs-fixer fix",
-		"analyse": "phpstan analyse"
-	},
-
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
