@@ -42,6 +42,7 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
         Gate::define('see-user', [RolePolicy::class, 'seeUser']);
+        Gate::define('edit-delete-user', [RolePolicy::class, 'editDeleteUser']);
 
     }
 }

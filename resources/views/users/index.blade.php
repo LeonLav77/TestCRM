@@ -79,23 +79,25 @@
                                     <td>{{$user->email}}</td>
                                     <td>{{$user->role->name ?? '-------'}}</td>
                                     <td>{{$user->created_at}}</td>
-                                    <td class="text-right">
-                                        <div class="dropdown">
-                                            <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </a>
-                                                    {{-- Edit dropdown list --}}
-                                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                        <a class="dropdown-item" href="{{ route('users.edit', $user->id) }}">Edit</a>
-                                                        <form action="{{ route('users.destroy', $user->id) }}" method="post">
-                                                            @csrf
-                                                            @method('delete')
-                                                            <button type="submit" class="dropdown-item pointer">Delete</button>
-                                                        </form>
-                                                    </div>
+                                    @can('edit-delete-user', $user)  
+                                        <td class="text-right">
+                                            <div class="dropdown">
+                                                <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-ellipsis-v"></i>
+                                                </a>
+                                                {{-- Edit dropdown list --}}
+                                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                    <a class="dropdown-item" href="{{ route('users.edit', $user->id) }}">Edit</a>
+                                                    <form action="{{ route('users.destroy', $user->id) }}" method="post">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="dropdown-item pointer">Delete</button>
+                                                    </form>
                                                 </div>
-                                            </td>
-                                        </tr>
+                                            </div>
+                                        </td>
+                                    @endcan
+                                </tr>
                                 @endcan
                             @endforeach
                         </form>

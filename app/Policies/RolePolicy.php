@@ -22,7 +22,6 @@ class RolePolicy
         if($user->hasRole(getModelFromRoleName('student'))){
             // if you are a student trying to see students
             if ($secondUser->hasRole(getModelFromRoleName('student'))) {
-                echo 'true';
                 return true;
             }else{
                return false;
@@ -37,5 +36,15 @@ class RolePolicy
             }
         }
         return true;
+    }
+    public function editDeleteUser(User $user, User $secondUser){
+        if($user->hasRole(getModelFromRoleName('admin'))){
+            if ($secondUser->hasRole(getModelFromRoleName('admin'))) {
+                return false;
+            }else{
+               return true;
+            }
+        }
+        return false;
     }
 }

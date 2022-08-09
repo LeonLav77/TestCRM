@@ -36,66 +36,82 @@ class CRUDUsersTest extends TestCase
             ]);
         }
     }
-    // view the list of users
-    public function testViewIndex()
-    {
-        $this->actingAs($this->users['Admin'])->get(Route('users.index'))
-            ->assertStatus(200)
-            ->assertSee('Users');
-    }
-    // view the form to create a new user
-    public function testViewCreate()
-    {
-        $this->actingAs($this->users['Admin'])->get(Route('users.create'))
-            ->assertStatus(200)
-            ->assertSee('Name')
-            ->assertSee('Email Address')
-            ->assertSee('Role')
-            ->assertSee('Password')
-            ->assertSee('Password Confirmation')
-            ->assertSee('Save');
-    }
-    // admin can see 3 people in the list
-    public function testAdminSeeThreePeople()
-    {
-        $this->actingAs($this->users['Admin'])->get(Route('users.index'))
-            ->assertStatus(200)
-            ->assertSee($this->users['Teacher']->name)
-            ->assertSee($this->users['Student']->name)
-            ->assertSee($this->users['Admin']->name);
-    }
-    // teacher can see only 2 people in the list
-    public function testTeacherSeeTwoPeople()
-    {
-        $this->actingAs($this->users['Teacher'])->get(Route('users.index'))
-            ->assertStatus(200)
-            ->assertSee($this->users['Teacher']->name)
-            ->assertSee($this->users['Student']->name)
-            ->assertDontSee($this->users['Admin']->name);
-    }
-    // student can see only 1 person in the list
-    public function testStudentSeeOnePerson()
-    {
-        $this->actingAs($this->users['Student'])->get(Route('users.index'))
-            ->assertStatus(200)
-            ->assertSee($this->users['Student']->name)
-            ->assertDontSee($this->users['Teacher']->name)
-            ->assertDontSee($this->users['Admin']->name);
-    }
+
     // update a user
-    // public function testUpdate()
-    // {
-    //     $response = $this->actingAs($this->users['Admin'])->put(Route('users.update', $this->users['Student']), [
-    //         'name' => 'New Name',
-    //         'email' => 'newStudent@example.com',
-    //         'role' => 'Student',
-    //     ]);
-    //         $response->assertStatus(302)
-    //         ->assertSessionHasNoErrors()
-    //         ->assertRedirect(Route('users.index'));
-    //     $this->assertDatabaseHas('users', [
-    //         'name' => 'New Name',
-    //         'email' => 'newStudent@example.com',
-    //     ]);
-    // }
+    public function testUpdateAsAdmin()
+    {
+        $response = $this->actingAs($this->users['Admin'])->put(Route('users.update', $this->users['Student']), [
+            'name' => 'New Name',
+            'email' => 'newStudent@example.com',
+            'role' => 'Student',
+        ]);
+        $response->assertStatus(302)
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(Route('users.index'));
+        $this->assertDatabaseHas('users', [
+            'name' => 'New Name',
+            'email' => 'newStudent@example.com',
+        ]);
+    }
+    public function testUpdateAsTeacherOrStudent()
+    {
+        $response = $this->actingAs($this->users['Teacher'])->put(Route('users.update', $this->users['Student']), [
+            'name' => 'New New Name',
+            'email' => 'newNewStudent@gmail.com',
+            'role' => 'Student',
+        ]);
+        $response->assertStatus(302)
+        ->assertSessionHasErrors(['role'=>'You may not edit this user'])
+        ->assertRedirect(Route('users.index'));
+        $this->assertDatabaseMissing('users', [
+            'name' => 'New New Name',
+            'email' => 'newNewStudent@gmail.com',
+        ]);
+
+        $response = $this->actingAs($this->users['Student'])->put(Route('users.update', $this->users['Teacher']), [
+            'name' => 'New New Name',
+            'email' => 'newNewStudent@gmail.com',
+            'role' => 'Student',
+        ]);
+        $response->assertStatus(302)
+        ->assertSessionHasErrors(['role'=>'You may not edit this user'])
+        ->assertRedirect(Route('users.index'));
+        $this->assertDatabaseMissing('users', [
+            'name' => 'New New Name',
+            'email' => 'newNewStudent@gmail.com',
+        ]);
+    }
+
+    public function testDeleteAsAdmin()
+    {
+        $response = $this->actingAs($this->users['Admin'])->delete(Route('users.destroy', $this->users['Student']));
+        $response->assertStatus(302)
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(Route('users.index'));
+        $this->assertDatabaseMissing('users', [
+            'name' => 'Student',
+            'email' => 'shouldWorkStudent',
+        ]);
+    }
+
+    public function testDeleteAsTeacherOrStudent()
+    {
+        $response = $this->actingAs($this->users['Teacher'])->delete(Route('users.destroy', $this->users['Student']));
+        $response->assertStatus(302)
+        ->assertSessionHasErrors(['role'=>'You may not delete this user'])
+        ->assertRedirect(Route('users.index'));
+        $this->assertDatabaseHas('users', [
+            'name' => 'Student',
+            'email' => 'Student@gmail.com',
+        ]);
+
+        $response = $this->actingAs($this->users['Student'])->delete(Route('users.destroy', $this->users['Teacher']));
+        $response->assertStatus(302)
+        ->assertSessionHasErrors(['role'=>'You may not delete this user'])
+        ->assertRedirect(Route('users.index'));
+        $this->assertDatabaseHas('users', [
+            'name' => 'Teacher',
+            'email' => 'Teacher@gmail.com',
+        ]);
+    }
 }

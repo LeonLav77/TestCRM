@@ -41,9 +41,9 @@ Step 3: List Users
 Step 4: Update and Delete Users
     16. Add remove methods DONE
     17. Add remove buttons DONE
-    18. Add update method and button
-    19. Make Test
-    20. Refactor
+    18. Add update method and button DONE
+    19. Make Test DONE
+    20. Refactor DONE
 
 Stage 2 (A.K.A stuff that was not implemented in stage 1 mostly because of lazyness):
     1. Input rederer should be way more modifiable and written better(select)
