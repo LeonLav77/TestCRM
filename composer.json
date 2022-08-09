@@ -43,7 +43,7 @@
             "dont-discover": []
         },
         "hooks": {
-			"pre-commit": "./pre-commit.sh"
+			"pre-commit": "echo hello world"
 		}
     },
 	"scripts": {
