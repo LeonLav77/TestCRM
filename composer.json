@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "brainmaestro/composer-git-hooks": "*",
         "guzzlehttp/guzzle": "^7.2",
         "laravel-frontend-presets/black-dashboard": "^1.0",
         "laravel/framework": "^9.19",
@@ -54,11 +55,17 @@
         ]
     },
     "extra": {
-        "laravel": {
-            "dont-discover": []
-        },
         "hooks": {
-            "pre-commit": "composer update"
+            "pre-commit": [
+                "echo committing as $(git config user.name)",
+                "php-cs-fixer fix ."
+            ],
+            "commit-msg": "grep -q '[A-Z]+-[0-9]+.*' $1",
+            "pre-push": [
+                "php-cs-fixer fix --dry-run .",
+                "phpunit"
+            ],
+            "post-merge": "composer update"
         }
     },
     "config": {
