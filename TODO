@@ -45,6 +45,17 @@ Step 4: Update and Delete Users
     19. Make Test DONE
     20. Refactor DONE
 
+Step 5: Create Classes
+    21. Create a class model
+    22. Create a classes migration
+    23. Connect Admin, Teacher, and Student to the class model
+    24. Create a view for creating classes
+    25. Create a view for listing classes
+    LOGIC:  Admin can create classes, teacher can assign students to classes
+            User can only see classes they are assigned to, and has many classes
+            Teacher can only see classes they are assigned to, and has many classes, they can assign students to their classes
+            Admin can see all classes, has no relation to classes, but can create classes and assign teachers to them
+
 Stage 2 (A.K.A stuff that was not implemented in stage 1 mostly because of lazyness):
     1. Input rederer should be way more modifiable and written better(select)
     2. Roles have some messy logic

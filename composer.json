@@ -56,7 +56,10 @@
     "extra": {
         "laravel": {
             "dont-discover": []
-        }
+        },
+        "hooks": {
+			"pre-commit": "./pre-commit.sh"
+		}
     },
     "config": {
         "optimize-autoloader": true,

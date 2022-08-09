@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +17,14 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// BASE ROUTES
 Route::get('/', function () {
-    return view('welcome');
+	return view('welcome');
 });
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
+
+// TEST ROUTES
 Route::get('/teacher/test', function () {
 	return auth()->user();
 })->middleware('role:App\Models\Teacher');
@@ -29,27 +37,24 @@ Route::get('/admin/test', function () {
 	return auth()->user();
 })->middleware('role:App\Models\Admin');
 
-Auth::routes(['register' => false]);
+// AUTH ROUTES
+Auth::routes(['register' => false, 'logout' => false]);
+Route::post('/logout',  [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
-
-Route::group(['middleware' => 'auth'], function () {
-		Route::get('icons', ['as' => 'pages.icons', 'uses' => 'App\Http\Controllers\PageController@icons']);
-		Route::get('maps', ['as' => 'pages.maps', 'uses' => 'App\Http\Controllers\PageController@maps']);
-		Route::get('notifications', ['as' => 'pages.notifications', 'uses' => 'App\Http\Controllers\PageController@notifications']);
-		Route::get('rtl', ['as' => 'pages.rtl', 'uses' => 'App\Http\Controllers\PageController@rtl']);
-		Route::get('tables', ['as' => 'pages.tables', 'uses' => 'App\Http\Controllers\PageController@tables']);
-		Route::get('typography', ['as' => 'pages.typography', 'uses' => 'App\Http\Controllers\PageController@typography']);
-		Route::get('upgrade', ['as' => 'pages.upgrade', 'uses' => 'App\Http\Controllers\PageController@upgrade']);
+// PAGES ROUTES
+Route::group(['middleware' => 'auth','prefix' => 'pages.'], function () {
+		Route::get('icons', [PageController::class, 'icons'])->name('pages.icons');
+		Route::get('maps', [PageController::class, 'maps'])->name('pages.maps');
+		Route::get('notifications', [PageController::class, 'notifications'])->name('pages.notifications');
+		Route::get('tables', [PageController::class, 'tables'])->name('pages.tables');
 });
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('users', 'App\Http\Controllers\UserController');
-	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
-	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
-	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
+	Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+	Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+	Route::put('profile/password', [ProfileController::class, 'password'])->name('profile.password');
 });
 
 
